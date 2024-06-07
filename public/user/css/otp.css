@@ -1,0 +1,70 @@
+body{
+    background-color: #fafafa;
+    display: flex;
+}
+
+.main {
+    width: 500px;
+    height: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    border-radius: 25px;
+    border: solid 5px black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    position: relative;
+    justify-content: center;
+}
+
+.image {
+    display: flex;
+    justify-content: center;
+    height: 100px;
+}
+
+.logo {
+    width: 160px;
+    height: 25px;
+    margin-top: 50px;
+}
+.form{
+    margin-top: 30px;
+    height: auto;
+}
+.inp{
+    width: 350px;
+    height: 50px;
+    border-radius: 5px;
+    border: solid 3px black;
+    font-size: 16px;
+   
+}
+
+
+.otpbtn{
+    width: 200px;
+    height: 50px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    margin-left: 80px;
+}
+
+.links{
+    display: flex;
+    flex-direction: column;
+    margin-left: 80px;
+}
+
+
+
+.resend{
+    font-size: 15px;
+    color: black;
+    text-decoration: none;
+    padding-left: 60px;
+    margin-bottom: 10px;
+}
