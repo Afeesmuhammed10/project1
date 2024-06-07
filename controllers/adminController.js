@@ -1,4 +1,4 @@
-const Admin = require('../models/userSchema')
+const User = require('../models/userSchema')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
@@ -72,7 +72,7 @@ const validateLogin = async (req, res) => {
     try {
         const { email, password } = req.body
         console.log(req.body)
-        const user = await Admin.findOne({ email: email });
+        const user = await User.findOne({ email: email });
          console.log(user)
         if (user) {
             const isPassword = await bcrypt.compare(password, user.password)
@@ -120,7 +120,7 @@ const getadminotpemail = (req, res) => {
 
 const verifyOtpEmail = async (req, res) => {
     const { email } = req.body
-    const user = await Admin.findOne({ email, email })
+    const user = await User.findOne({ email, email })
 
     if (user) {
         if (user.verified == true) {
@@ -144,6 +144,37 @@ const getAdminOtp = (req, res) => {
     console.log("otp is ",req.otp);
     res.render('admin/adminotp')
     
+}
+
+//getlist users
+
+const getUser = async (req,res)=>{
+    let user = await User.find({isBlocked : false} )
+
+
+    res.render('admin/listusers',{users:user})
+}
+
+//get Blocked users
+
+const getBlockedUser = async (req,res)=>{
+    let user = await User.find({isBlocked : true} )
+
+
+    res.render('admin/blockedusers',{users:user})
+}
+
+//get deleted categries
+
+const getDeletedCategories = (req,res)=>{
+    res.render('admin/deletedcategories')
+}
+
+
+//get add new category
+
+const getAddNewCategory= (req,res)=>{
+    res.render('admin/addcategory')
 }
 
 //verifyadmin otp
@@ -171,6 +202,44 @@ const verifyadminotp = (req,res) => {
     
 }
 
+//block user
+
+const blockuser = async(req,res)=>{
+    let userId = req.query.userId;
+console.log(`id is ${userId}`)
+    let user = await User.updateOne(
+        {_id:userId},
+        {
+            $set:{
+                isBlocked:true
+            }
+        }
+    )
+
+    if(user){
+        res.status(200).send("user blocked suceessfully")
+    }
+}
+
+//unblock user
+
+const unBlockuser = async(req,res)=>{
+    let userId = req.query.userId;
+console.log(`id is ${userId}`)
+    let user = await User.updateOne(
+        {_id:userId},
+        {
+            $set:{
+                isBlocked:false
+            }
+        }
+    )
+
+    if(user){
+        res.status(200).send("user blocked suceessfully")
+    }
+}
+
 
 module.exports = {
     getAdminDash,
@@ -180,5 +249,11 @@ module.exports = {
     getadminotpemail,
     getAdminOtp,
     verifyOtpEmail,
-    verifyadminotp
+    verifyadminotp,
+    getUser,
+    blockuser,
+    getBlockedUser,
+    unBlockuser,
+    getDeletedCategories,
+    getAddNewCategory
 }

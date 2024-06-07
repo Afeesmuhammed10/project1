@@ -16,4 +16,16 @@ router.get('/adminotp',adminController.getAdminOtp);
 router.post('/verifyotpemail',adminController.verifyOtpEmail)
 router.post('/otpVerification',adminController.verifyadminotp)
 
+router.get('/users',adminController.getUser);
+
+router.post('/blockuser',adminController.blockuser)
+
+router.get('/bolckedusers',adminController.getBlockedUser)
+
+router.post('/unblockuser',adminController.unBlockuser)
+
+router.get('/deletedcategories',adminController.getDeletedCategories)
+
+router.get('/addcategory',adminController.getAddNewCategory)
+
 module.exports = router

@@ -15,6 +15,10 @@ const userSchema =new mongoose.Schema({
         type:Number,
         required:true
     },
+    joindedDate:{
+        type:String,
+        required:true
+    },
     walletAmount:{
         type:Number,
         required:true

@@ -94,6 +94,9 @@ const userRegistration = async (req, res) => {
         emailAlReadyExist = true
     }
     if (!emailAlReadyExist) {
+        let date = new Date();
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        let localdate = date.toLocaleDateString('en-GB', options);
         let hashedPasword = await bcrypt.hash(password, 10)
         const payload = { name: name, email: email }
         const token = jwt.sign(payload, process.env.SECRET_KEY)
@@ -106,6 +109,7 @@ const userRegistration = async (req, res) => {
             isBlocked: false,
             walletAmount: 0,
             jwttoken: token,
+            joindedDate:localdate,
             verified: false,
            isAdmin:false
         })

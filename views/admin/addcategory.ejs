@@ -18,7 +18,7 @@
       <!-- Sidebar scroll-->
       <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-        
+          <a href="./index.html" class="text-nowrap logo-img">
             <img src="/admin/assets/images/logos/dark-logo.svg" width="180" alt="" />
           </a>
           <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -29,7 +29,7 @@
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
           <ul id="sidebarnav">
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin" aria-expanded="false">
+              <a class="sidebar-link" href="./index.html" aria-expanded="false">
                 <span></span>
                 <span class="hide-menu">Dashboard</span>
               </a>
@@ -41,7 +41,7 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/products" aria-expanded="false">
+              <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
                 <span></span>
                 <span class="hide-menu">Products</span>
               </a>
@@ -53,19 +53,19 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
+              <a class="sidebar-link" href="./ui-forms.html" aria-expanded="false">
                 <span></span>
                 <span class="hide-menu">Orders</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/coupens" aria-expanded="false">
+              <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
                 <span></span>
                 <span class="hide-menu">Coupen</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
+              <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
                 <span></span>
                 <span class="hide-menu">Logout</span>
               </a>
@@ -85,7 +85,68 @@
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
   data-sidebar-position="fixed" data-header-position="fixed">
   <!-- Sidebar Start -->
- 
+  <aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div>
+      <div class="brand-logo d-flex align-items-center justify-content-between">
+        <a href="./index.html" class="text-nowrap logo-img">
+          <img src="/admin/assets/images/logos/dark-logo.svg" width="180" alt="" />
+        </a>
+        <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+          <i class="ti ti-x fs-8"></i>
+        </div>
+      </div>
+      <!-- Sidebar navigation-->
+      <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+        <ul id="sidebarnav">
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/admin" aria-expanded="false">
+              <span></span>
+              <span class="hide-menu">Dashboard</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/admin/category" aria-expanded="false">
+              <span></span>
+              <span class="hide-menu">Category</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/admin/products" aria-expanded="false">
+              <span></span>
+              <span class="hide-menu">Products</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/admin/users" aria-expanded="false">
+              <span></span>
+              <span class="hide-menu">Users</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
+              <span></span>
+              <span class="hide-menu">Orders</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/admin/coupens" aria-expanded="false">
+              <span></span>
+              <span class="hide-menu">Coupen</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
+              <span></span>
+              <span class="hide-menu">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+  </aside>
   <!--  Sidebar End -->
   <!--  Main wrapper -->
 
@@ -95,41 +156,23 @@
 <div class="col-lg-8 d-flex align-items-stretch main">
   <div class="card w-100">
     <div class="card-body p-4 ">
-      <div class="button w-100 d-flex  justify-content-end">
-        <a style="margin-right: 10px; width: 200px;" href="/admin/addcategory" class="btn btn-primary">Add Categories</a>
-        <a style="width: 200px;" href="/admin/deletedcategories" class="btn btn-danger">Deleted Categories</a>
-    </div>
-      <h5 class="card-title fw-semibold mb-4" id="table">Category list</h5>
-      <div class="table-responsive">
-        <table class="table text-nowrap mb-0 align-middle table-bordered" style="border:1px solid black; text-align:center">
-          <thead class="text-dark fs-4">
-            <tr>
+        <div class="button w-100 d-flex  justify-content-end">
+           
+            <a style="width: 200px;" href="/admin/category" class="btn btn-success">Active Categories</a>
+        </div>
+      <h5 class="card-title fw-semibold mb-4" id="table">Add New Category</h5>
+      <div class="d-flex">
+        <form class=" col-md-6">
+            <div class="form-group">
              
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">Category</h6>
-              </th>
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">Actions</h6>
-              </th>
-             
-            </tr>
-          </thead>
-          <tbody>
-                <tr>
-                  <td class="border-bottom-0">
-                    <p class="mb-0 fw-semibold">Shirts</p>
-                  </td>
-                  <td class="border-bottom-0">
-                    <button class="badge bg-primary rounded-3 fw-semibold">Edit</button>
-                    <button class="badge bg-danger rounded-3 fw-semibold">Delte</button>
-                  </td>
-                 
-                </tr>
-              
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <br>
             
-          </tbody>
-        </table>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
       </div>
+    
     </div>
   </div>
 </div>
