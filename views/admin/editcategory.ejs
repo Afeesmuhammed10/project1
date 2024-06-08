@@ -160,20 +160,22 @@
            
             <a style="width: 200px;" href="/admin/category" class="btn btn-success">Active Categories</a>
         </div>
-      <h5 class="card-title fw-semibold mb-4" id="table">Add New Category</h5>
+      <h5 class="card-title fw-semibold mb-4" id="table">Edit Category</h5>
       <%if(locals.err){%>
           <p style="color: red;"><%= err%></p>
         <%}%>
       <div class="d-flex">
-        <form class=" col-md-6" action="/products/addnewcategory" method="post">
+        <%if(locals.category){%>
+        <form id="form" class=" col-md-6" action="/products/editcategory/<%= category._id%>" method="post">
+         
             <div class="form-group">
-             
-              <input type="text" class="form-control" id="exampleInputEmail1" name="category" aria-describedby="emailHelp" placeholder="Enter category name">
+              <input type="text" class="form-control"  name="category" aria-describedby="emailHelp" placeholder="<%=category.categoryname%>">
             </div>
             <br>
             
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button onclick="editCat('<%=category._id%>')"  type="submit" class="btn btn-primary">Submit</button>
           </form>
+          <%}%>
       </div>
     
     </div>

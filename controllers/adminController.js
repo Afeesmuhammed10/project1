@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
+const Category = require('../models/categorySchema')
 
 
 //function for create otp
@@ -62,8 +63,9 @@ const getAdminLogin = (req, res) => {
 
 //get Category
 
-const getCategory = (req, res) => {
-    res.render('admin/category');
+const getCategory = async(req, res) => {
+    let categories = await Category.find({isDeleted:false})
+    res.render('admin/category',{categories:categories});
 }
 
 //validate admin login
@@ -166,8 +168,9 @@ const getBlockedUser = async (req,res)=>{
 
 //get deleted categries
 
-const getDeletedCategories = (req,res)=>{
-    res.render('admin/deletedcategories')
+const getDeletedCategories =async (req,res)=>{
+    let delCat = await Category.find({isDeleted:true});
+    res.render('admin/deletedcategories',{category:delCat})
 }
 
 

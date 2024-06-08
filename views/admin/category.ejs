@@ -17,7 +17,7 @@
     <aside class="left-sidebar">
       <!-- Sidebar scroll-->
       <div>
-        <div class="brand-logo d-flex align-items-center justify-content-between">
+        <div class="brand-logo d-flex align-items-center justify-content-between hello">
         
             <img src="/admin/assets/images/logos/dark-logo.svg" width="180" alt="" />
           </a>
@@ -100,8 +100,8 @@
         <a style="width: 200px;" href="/admin/deletedcategories" class="btn btn-danger">Deleted Categories</a>
     </div>
       <h5 class="card-title fw-semibold mb-4" id="table">Category list</h5>
-      <div class="table-responsive">
-        <table class="table text-nowrap mb-0 align-middle table-bordered" style="border:1px solid black; text-align:center">
+      <div class="table-responsive" id="table">
+        <table id="p-table" class="table text-nowrap mb-0 align-middle table-bordered" style="border:1px solid black; text-align:center">
           <thead class="text-dark fs-4">
             <tr>
              
@@ -114,18 +114,23 @@
              
             </tr>
           </thead>
-          <tbody>
-                <tr>
+          <tbody id="tbody">
+            <%if(categories){%>
+
+              <%categories.forEach((category)=>{%>
+                <tr id="<%=category._id%>">
                   <td class="border-bottom-0">
-                    <p class="mb-0 fw-semibold">Shirts</p>
+                    <p class="mb-0 fw-semibold"><%= category.categoryname%></p>
                   </td>
                   <td class="border-bottom-0">
-                    <button class="badge bg-primary rounded-3 fw-semibold">Edit</button>
-                    <button class="badge bg-danger rounded-3 fw-semibold">Delte</button>
+                    <a href="/products/editcategory/<%=category._id%>"><button class="badge bg-primary rounded-3 fw-semibold">Edit</button></a>
+                    <button onclick="deleteCat('<%=category._id%>')"  class="badge bg-danger rounded-3 fw-semibold">Delte</button>
                   </td>
                  
                 </tr>
-              
+              <%})%>
+                
+              <%}%>
             
           </tbody>
         </table>
@@ -144,5 +149,39 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 
+
+<script>
+  function deleteCat(catId){
+ 
+    let row = document.getElementById(catId)
+    row.addEventListener('click',(e)=>{
+      Swal.fire({
+          title: "Delete this category ?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, Delete"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your can restore this",
+              icon: "success"
+            });
+            axios.post(`/products/deletecategory/?catId=${catId}`).then((response) => {
+              if (response.status == 200) {
+                  const row = document.getElementById(catId);
+                  if (row) {
+                      row.parentNode.removeChild(row); 
+                  }
+              }
+          });
+          
+          }
+        });
+    })
+  }
+</script>
 
 </body>
