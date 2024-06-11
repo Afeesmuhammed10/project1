@@ -184,7 +184,11 @@ const verifyRegisterOtp = async (req, res) => {
                 httpOnly: true
             });
             res.status(200).send("otp verified successfully")
+        }else{
+           
         }
+    }else{
+        res.status(404).send("invalid otp")
     }
 };
 

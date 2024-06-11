@@ -9,85 +9,7 @@
   <title>Admin Dashboard</title>
  
 </head>
-<body>
-  <!-- Body Wrapper -->
-  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-    data-sidebar-position="fixed" data-header-position="fixed">
-    <!-- Sidebar Start -->
-    <aside class="left-sidebar">
-      <!-- Sidebar scroll-->
-      <div>
-        <div class="brand-logo d-flex align-items-center justify-content-between">
-          <a href="./index.html" class="text-nowrap logo-img">
-            <img src="/admin/assets/images/logos/dark-logo.svg" width="180" alt="" />
-          </a>
-          <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-            <i class="ti ti-x fs-8"></i>
-          </div>
-        </div>
-        <!-- Sidebar navigation-->
-        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-          <ul id="sidebarnav">
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin" aria-expanded="false">
-                <span></span>
-                <span class="hide-menu">Dashboard</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/category" aria-expanded="false">
-                <span></span>
-                <span class="hide-menu">Category</span>
-              </a>
-            </li>
 
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/category" aria-expanded="false">
-                <span></span>
-                <span class="hide-menu">Brands</span>
-              </a>
-            </li>
-
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/products" aria-expanded="false">
-                <span></span>
-                <span class="hide-menu">Products</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/users" aria-expanded="false">
-                <span></span>
-                <span class="hide-menu">Users</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
-                <span></span>
-                <span class="hide-menu">Orders</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/coupens" aria-expanded="false">
-                <span></span>
-                <span class="hide-menu">Coupen</span>
-              </a>
-            </li>
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
-                <span></span>
-                <span class="hide-menu">Logout</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <!-- End Sidebar navigation -->
-      </div>
-      <!-- End Sidebar scroll-->
-    </aside>
-    <!-- Sidebar End -->
-    <!-- Main wrapper -->
-    
 <body>
   <link rel="stylesheet" href="/admin//assets/css/styles.min.css" />
 <!--  Body Wrapper -->
@@ -167,24 +89,22 @@
     <div class="card-body p-4 ">
         <div class="button w-100 d-flex  justify-content-end">
            
-            <a style="width: 200px;" href="/admin/category" class="btn btn-success">Active Categories</a>
+            <a style="width: 200px;" href="/admin/category" class="btn btn-success">Active Brands</a>
         </div>
-      <h5 class="card-title fw-semibold mb-4" id="table">Edit Category</h5>
+      <h5 class="card-title fw-semibold mb-4" id="table">Add New Brand</h5>
       <%if(locals.err){%>
           <p style="color: red;"><%= err%></p>
         <%}%>
       <div class="d-flex">
-        <%if(locals.category){%>
-        <form id="form" class=" col-md-6" action="/admin/products/editcategory/<%= category._id%>" method="post">
-         
+        <form class=" col-md-6" action="/admin/products/addnewbrand" method="post">
             <div class="form-group">
-              <input type="text" class="form-control"  name="category" aria-describedby="emailHelp" placeholder="<%=category.categoryname%>">
+             
+              <input type="text" class="form-control" id="exampleInputEmail1" name="brand" aria-describedby="emailHelp" placeholder="Enter brand name">
             </div>
             <br>
             
-            <button onclick="editCat('<%=category._id%>')"  type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
           </form>
-          <%}%>
       </div>
     
     </div>

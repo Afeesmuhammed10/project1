@@ -29,7 +29,7 @@
         <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
           <ul id="sidebarnav">
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./index.html" aria-expanded="false">
+              <a class="sidebar-link" href="/admin" aria-expanded="false">
                 <span></span>
                 <span class="hide-menu">Dashboard</span>
               </a>
@@ -40,8 +40,17 @@
                 <span class="hide-menu">Category</span>
               </a>
             </li>
+
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+              <a class="sidebar-link" href="/admin/category" aria-expanded="false">
+                <span></span>
+                <span class="hide-menu">Brands</span>
+              </a>
+            </li>
+
+
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="/admin/products" aria-expanded="false">
                 <span></span>
                 <span class="hide-menu">Products</span>
               </a>
@@ -53,19 +62,19 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-forms.html" aria-expanded="false">
+              <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
                 <span></span>
                 <span class="hide-menu">Orders</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
+              <a class="sidebar-link" href="/admin/coupens" aria-expanded="false">
                 <span></span>
                 <span class="hide-menu">Coupen</span>
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="./ui-typography.html" aria-expanded="false">
+              <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
                 <span></span>
                 <span class="hide-menu">Logout</span>
               </a>
@@ -157,10 +166,10 @@
   <div class="card w-100">
     <div class="card-body p-4 ">
         <div class="button w-100 d-flex  justify-content-end">
-            <a style="width: 150px;" href="/admin/users" class="btn btn-success">UnBlocked users</a>
+            <a style="width: 150px;" href="/admin/users" class="btn btn-success">Active users</a>
         </div>
         
-      <h5 class="card-title fw-semibold mb-4" id="table">Users list</h5>
+      <h5 class="card-title fw-semibold mb-4" id="table">Blocked Users list</h5>
       <div class="table-responsive">
         <table class="table text-nowrap mb-0 align-middle">
           <thead class="text-dark fs-4">

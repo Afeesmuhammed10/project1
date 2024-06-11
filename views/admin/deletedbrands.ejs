@@ -79,103 +79,23 @@
     <!-- Sidebar End -->
     <!-- Main wrapper -->
     
-<body>
-  <link rel="stylesheet" href="/admin//assets/css/styles.min.css" />
-<!--  Body Wrapper -->
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-  data-sidebar-position="fixed" data-header-position="fixed">
-  <!-- Sidebar Start -->
-  <aside class="left-sidebar">
-    <!-- Sidebar scroll-->
-    <div>
-      <div class="brand-logo d-flex align-items-center justify-content-between">
-        <a href="./index.html" class="text-nowrap logo-img">
-          <img src="/admin/assets/images/logos/dark-logo.svg" width="180" alt="" />
-        </a>
-        <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
-          <i class="ti ti-x fs-8"></i>
-        </div>
-      </div>
-      <!-- Sidebar navigation-->
-      <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
-        <ul id="sidebarnav">
-          <li class="sidebar-item">
-            <a class="sidebar-link" href="/admin" aria-expanded="false">
-              <span></span>
-              <span class="hide-menu">Dashboard</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a class="sidebar-link" href="/admin/category" aria-expanded="false">
-              <span></span>
-              <span class="hide-menu">Category</span>
-            </a>
-          </li>
 
-          <li class="sidebar-item">
-            <a class="sidebar-link" href="/admin/category" aria-expanded="false">
-              <span></span>
-              <span class="hide-menu">Brands</span>
-            </a>
-          </li>
-
-
-          <li class="sidebar-item">
-            <a class="sidebar-link" href="/admin/products" aria-expanded="false">
-              <span></span>
-              <span class="hide-menu">Products</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a class="sidebar-link" href="/admin/users" aria-expanded="false">
-              <span></span>
-              <span class="hide-menu">Users</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a class="sidebar-link" href="/admin/orders" aria-expanded="false">
-              <span></span>
-              <span class="hide-menu">Orders</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a class="sidebar-link" href="/admin/coupens" aria-expanded="false">
-              <span></span>
-              <span class="hide-menu">Coupen</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a class="sidebar-link" href="/admin/logout" aria-expanded="false">
-              <span></span>
-              <span class="hide-menu">Logout</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <!-- End Sidebar navigation -->
-    </div>
-    <!-- End Sidebar scroll-->
-  </aside>
-  <!--  Sidebar End -->
-  <!--  Main wrapper -->
-
-  
 <!-- table -->
 
 <div class="col-lg-8 d-flex align-items-stretch main">
   <div class="card w-100">
     <div class="card-body p-4 ">
       <div class="button w-100 d-flex  justify-content-end">
-        <a style="margin-right: 10px; width: 200px;" href="/admin/category" class="btn btn-success">Active Categories</a>
+        <a style="margin-right: 10px; width: 200px;" href="/admin/products/brands" class="btn btn-success">Active Brands</a>
     </div>
-      <h5 class="card-title fw-semibold mb-4" id="table">Deleted Category list</h5>
+      <h5 class="card-title fw-semibold mb-4" id="table">Deleted Brand List</h5>
       <div class="table-responsive">
         <table class="table text-nowrap mb-0 align-middle table-bordered" style="border:1px solid black; text-align:center">
           <thead class="text-dark fs-4">
             <tr>
              
               <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">Category</h6>
+                <h6 class="fw-semibold mb-0">brand</h6>
               </th>
               <th class="border-bottom-0">
                 <h6 class="fw-semibold mb-0">Action</h6>
@@ -184,14 +104,14 @@
             </tr>
           </thead>
           <tbody>
-            <%if(category){%>
-              <%category.forEach((cat)=>{%>
-                <tr id="<%=cat._id%>">
+            <%if(brands){%>
+              <%brands.forEach((brand)=>{%>
+                <tr id="<%=brand._id%>">
                   <td class="border-bottom-0">
-                    <p class="mb-0 fw-semibold"><%=cat.categoryname%></p>
+                    <p class="mb-0 fw-semibold"><%=brand.brandname%></p>
                   </td>
                   <td class="border-bottom-0">
-                    <button onclick="restoreCat('<%=cat._id%>')" class="badge bg-primary rounded-3 fw-semibold">Restore</button>
+                    <button onclick="restoreBrand('<%=brand._id%>')" class="badge bg-primary rounded-3 fw-semibold">Restore</button>
                   </td>
                  
                 </tr>
@@ -217,12 +137,12 @@
 <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 
 <script>
-  function restoreCat(catId){
+  function restoreBrand(brandId){
  
-    let row = document.getElementById(catId)
+    let row = document.getElementById(brandId)
     row.addEventListener('click',(e)=>{
       Swal.fire({
-          title: "Restore this category ?",
+          title: "Restore this brand ?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
@@ -235,9 +155,9 @@
               text: "Your can change this",
               icon: "success"
             });
-            axios.post(`/admin/products/restorecategory/?catId=${catId}`).then((response) => {
+            axios.post(`/admin/products/restorebrand/?brandId=${brandId}`).then((response) => {
               if (response.status == 200) {
-                  const row = document.getElementById(catId);
+                  const row = document.getElementById(brandId);
                   if (row) {
                       row.parentNode.removeChild(row); 
                   }
