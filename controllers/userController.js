@@ -82,6 +82,11 @@ const otpVerfication = (req, res) => {
     res.render('user/otpPage')
 }
 
+//get product details page
+
+const getProductDetails = (req,res)=>{
+    res.render('user/productdetailview')
+}
 
 //user registration
 const userRegistration = async (req, res) => {
@@ -237,5 +242,6 @@ module.exports = {
     registerdEmail,
     resendOtp,
     otpLogin,
-    checkOtpEmail
+    checkOtpEmail,
+    getProductDetails 
 }

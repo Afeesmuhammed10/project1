@@ -8,6 +8,7 @@ router.get('/login',userMiddleware.isToken,userController.getLogin);
 router.get('/register',userMiddleware.isToken,userController.getRegister);
 router.get('/registerotpVerification',userMiddleware.isToken,userController.otpVerfication);
 router.get('/otplogin',userMiddleware.isToken,userController.otpEmail)
+router.get('/productdetails',userController.getProductDetails)
 
 router.post('/register',userController.userRegistration)
 router.post('/login',userController.userLogin)

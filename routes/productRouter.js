@@ -27,4 +27,6 @@ router.get('/editbrand/:brandId',productController.getEditBrand)
 
 router.post('/editbrand/:brandId',productController.editBrand)
 
+router.post('/addproducts',productController.addProducts)
+
 module.exports = router

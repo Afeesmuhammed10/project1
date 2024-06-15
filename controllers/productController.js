@@ -1,6 +1,6 @@
 const Category = require('../models/categorySchema');
 const Brand = require("../models/brandSchema")
-
+const Product = require("../models/productSchema")
 //get shop page
 
 const getShop=(req,res)=>{
@@ -83,8 +83,10 @@ const getProducts = async(req,res)=>{
 
 //get add products
 
-const getAddProducts = (req,res)=>{
-    res.render('admin/addproducts')
+const getAddProducts = async(req,res)=>{
+    let category = await Category.find({isDeleted:false})
+    let brands = await Brand.find({isDeleted:false})
+    res.render('admin/addproducts',{categories:category,brands:brands})
 }
 
 //get brands
@@ -96,7 +98,8 @@ const getBrands =async(req,res)=> {
 
 //get add new grands
 
-const getAddBrands = (req,res)=>{
+const getAddBrands =async (req,res)=>{
+   
     res.render('admin/addnewbrands')
 }
 
@@ -218,6 +221,27 @@ const restoreBrand = async(req,res)=>{
     }
 }
 
+
+//add products
+
+const addProducts =async (req,res)=>{
+    console.log(req.query.data);
+    let obj = JSON.parse(req.query.data); 
+    let product = await Product.create({
+        productName:obj.pname,
+        gender:obj.gender,
+        category:obj.category,
+        brand:obj.brand,
+        size:obj.size,
+        description:obj.disc,
+        isDeleted:false
+
+    })
+    console.log(product)
+    if(product){
+        res.status(200).send(product._id);
+    }
+}
 module.exports = {
     getShop,
     addnewcategory,
@@ -234,5 +258,6 @@ module.exports = {
     getdeletedBrands,
     restoreBrand,
     getEditBrand,
-    editBrand
+    editBrand,
+    addProducts
 }

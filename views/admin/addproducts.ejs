@@ -1,15 +1,155 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/admin/assets/css/styles.min.css" />
-  <link rel="stylesheet" href="/admin/assets/css/users.css" />
+  <link rel="stylesheet" href="/admin/assets/css/add-product.css" />
   
   <title>Admin Dashboard</title>
- 
+
+ <style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    margin-top: 16px;
+}
+
+form input[type="text"],
+form select,
+form textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+form textarea {
+    resize: vertical;
+}
+
+form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button[type="submit"] {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+form button[type="reset"] {
+    background-color: #6c757d;
+    color: #ffffff;
+    margin-left: 10px;
+}
+
+form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+form button[type="reset"]:hover {
+    background-color: #5a6268;
+}
+
+
+
+/* modal */
+
+/* The Modal (background) */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 60px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 60px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+/* Modal Content */
+/* The Modal (background) */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 60px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+ </style>
 </head>
 <body>
+
+  
   <!-- Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
@@ -40,6 +180,15 @@
                 <span class="hide-menu">Category</span>
               </a>
             </li>
+
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="/admin/brands" aria-expanded="false">
+                  <span></span>
+                  <span class="hide-menu">Brands</span>
+                </a>
+              </li>
+
+              
             <li class="sidebar-item">
               <a class="sidebar-link" href="/admin/products" aria-expanded="false">
                 <span></span>
@@ -79,41 +228,142 @@
     <!-- Sidebar End -->
     <!-- Main wrapper -->
     
-<body>
   <link rel="stylesheet" href="/admin//assets/css/styles.min.css" />
-<!--  Body Wrapper -->
-<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-  data-sidebar-position="fixed" data-header-position="fixed">
-  <!-- Sidebar Start -->
- 
-  <!--  Sidebar End -->
-  <!--  Main wrapper -->
+    <form id="product-form" action="/admin/products/add-product" method="POST">
+        <label for="productName">Product Name:</label>
+        <input type="text" id="productName" name="productName" value="" required>
 
-  
-<!-- table -->
+   <!-- gender -->
 
-<div class="main">
-  <form class="col-md-6">
-    <div class="form-group">
-      <label for="exampleInputEmail1">Email address</label>
-      <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="">Select a category</option>
+            <option value="male"  id="male">Male</option>
+            <option value="female">Female</option>
+            <option value="kids">Kids</option>
+        </select>
+
+<!-- category -->
+
+        <label for="category">Category:</label>
+        <select id="category" name="category" required>
+            <option value="">Select a category</option>
+            <% if (categories) { %>
+                <% categories.forEach((category) => { %>
+                    <option value="<%= category._id %>"><%= category.categoryname%></option>
+                <% }); %>
+            <% } %>
+        </select>
+
+ <!-- brands -->
+        <label for="brands">Brands:</label>
+        <select id="brands" name="brands" required>
+            <option value="">Select a brands</option>
+            <% if (brands) { %>
+                <% brands.forEach((brands) => { %>
+                    <option value="<%= brands._id %>"><%= brands.brandname %></option>
+                <% }); %>
+            <% } %>
+        </select>
+
+<!--  sizes   -->
+  <p id="hello"></p>
+                                                  
+<label for="size">Sizes:</label>
+<select id="size" name="size" required>
+    <option value="">Select a Sizes</option>
+    <option value="XXS">XXS</option>
+    <option value="XS">XS</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+    <option value="XXL">XXL</option>
+    <option value="XXXL">XXXL</option>
+    <option value="4XL">4XL</option>
+    <option value="5XL">5XL</option>
+</select>
+
+  <!-- description -->
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="4" cols="50"></textarea>
+
+       
+            <!-- Button for Add Product and View Dress Variants -->
+            <button type="submit" onclick="sendpData()" id="addProductBtn" data-toggle="modal" data-target="#exampleModal">Add Product </button>
+           
+        
+    </form>
+
+   
+
+
+
+
+   
+
+<!-- Modal -->
+<div class="modal fade" id="varientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
+  </div>
+</div>
+
+  </div>
+
+  <script>
+    let form = document.getElementById('product-form');
+    form.addEventListener('submit',(e)=>{
+      e.preventDefault();
+    });
+
     
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-</div>
-</div>
-<script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-<script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../assets/js/sidebarmenu.js"></script>
-<script src="../assets/js/app.min.js"></script>
-<script src="../assets/libs/apexcharts/dist/apexcharts.min.js"></script>
-<script src="../assets/libs/simplebar/dist/simplebar.js"></script>
-<script src="../assets/js/dashboard.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    function sendpData(){
+      let pname = document.getElementById('productName').value
+    let gender = document.getElementById('gender').value
+    let category = document.getElementById('category').value
+    let brand = document.getElementById('brands').value
+    let size = document.getElementById('size').value
+    let disc = document.getElementById('description').value
 
 
+    const obj = {
+      pname:pname,
+      gender:gender,
+      category:category,
+      brand:brand,
+      size:size,
+      disc:disc
+    }
 
-</body> 
+    let productJson = JSON.stringify(obj)
+      axios.post(`/admin/products/addproducts/?data=${productJson}`).then((response)=>{
+            if(response.status===200){
+              document.getElementById('varientModal')
+              $('#varientModal').modal('show');
+            }
+      })
+    }
+   
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
 
