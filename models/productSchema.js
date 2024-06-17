@@ -21,12 +21,12 @@ const productSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    size:{
+    description:{
         type:String,
         required:true
     },
-    description:{
-        type:String,
+    varients:{
+        type:[String],
         required:true
     }
    

@@ -1,6 +1,7 @@
 const Category = require('../models/categorySchema');
 const Brand = require("../models/brandSchema")
 const Product = require("../models/productSchema")
+const Varient = require("../models/varientSchema")
 //get shop page
 
 const getShop=(req,res)=>{
@@ -242,6 +243,33 @@ const addProducts =async (req,res)=>{
         res.status(200).send(product._id);
     }
 }
+
+const addProductVariable = async(req,res)=>{
+ console.log(req.files)
+ console.log(req.body)
+ const {color,productId,price,stock,size} = req.body
+
+let images = req.files
+console.log(images)
+
+
+ let varient = await Varient.create(
+    {
+        color:color,
+        productId:productId,
+        price:price,
+        size:size,
+        stock:stock,
+        images:[images.image1[0].filename,images.image2[0].filename,images.image3[0].filename]
+    }
+ )
+console.log(varient)
+
+
+
+}
+
+
 module.exports = {
     getShop,
     addnewcategory,
@@ -259,5 +287,6 @@ module.exports = {
     restoreBrand,
     getEditBrand,
     editBrand,
-    addProducts
+    addProducts,
+    addProductVariable 
 }
