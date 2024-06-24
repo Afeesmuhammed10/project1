@@ -41,11 +41,19 @@ router.get('/editbrand/:brandId',productController.getEditBrand)
 router.post('/editbrand/:brandId',productController.editBrand)
 
 router.post('/addproducts',productController.addProducts)
+router.post('/addproductvariant',upload.any(),productController.addProductVariant)
 
-router.post('/addproductvarient',upload.fields([
-    { name: 'image1', maxCount: 1 },
-    { name: 'image2', maxCount: 1 },
-    { name: 'image3', maxCount: 1 }
-  ]),productController.addProductVariable)
+router.get('/colors',productController.getColors)
 
+router.get('/addcolors',productController.getAddNewColors)
+router.post('/addcolors',productController.addNewColor)
+router.post('/deletecolors',productController.deleteColor)
+router.get('/deletedcolors',productController.deletedColors)
+
+router.get('/sizes',productController.getSizes)
+router.get('/addsizes',productController.getAddSizes)
+router.post('/addsizes',productController.addSizes)
+
+
+router.get('/prodcutview/:id',productController.getProductview) 
 module.exports = router

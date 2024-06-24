@@ -25,9 +25,14 @@ const productSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    varients:{
-        type:[String],
+    variants:{
+        type: [mongoose.Schema.Types.ObjectId],
         required:true
+    },
+    isVariantAvailable: {
+        type: Boolean,
+        required:true,
+        default:false
     }
    
 })

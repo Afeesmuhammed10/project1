@@ -182,23 +182,20 @@
                 <h6 class="fw-semibold mb-0">Name</h6>
               </th>
 
+             
+              
               <th class="border-bottom-0">
                 <h6 class="fw-semibold mb-0">Category</h6>
               </th>
+
+              <th class="border-bottom-0">
+                <h6 class="fw-semibold mb-0">Brand</h6>
+              </th>
+              
               <th class="border-bottom-0">
                 <h6 class="fw-semibold mb-0">Added Date</h6>
               </th>
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">Price</h6>
-              </th>
-
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">Total Stock</h6>
-              </th>
-
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">Total Orders</h6>
-              </th>
+              
 
               <th class="border-bottom-0">
                 <h6 class="fw-semibold mb-0">View</h6>
@@ -206,47 +203,41 @@
             </tr>
           </thead>
           <tbody>
-          
+
+            <%if(products){%>
+
+              <%products.forEach((product)=>{%>
                 <tr >
                   <td class="border-bottom-0">
-                    <p class="mb-0 fw-normal"></p>
+                    <img src="/images/<%=product.variants[0].images[0]%>" alt="" width="100px" height="100px">
                   </td>
                   <td class="border-bottom-0">
-                    <p class="mb-0 fw-normal"></p>
-                  </td>
-                  <td class="border-bottom-0">
-                    <div class="d-flex align-items-center gap-2">
-                      <p class="mb-0 fw-normal"></p>
-                    </div>
-                  </td>
-                  <td class="border-bottom-0">
-                    <p class="mb-0 fw-normal"></p>
+                    <p class="mb-0 fw-normal"><%=product.productName%></p>
                   </td>
 
                   <td class="border-bottom-0">
                     <div class="d-flex align-items-center gap-2">
-                      
+                      <p class="mb-0 fw-normal"><%=product.category%></p>
                     </div>
                   </td>
 
                   <td class="border-bottom-0">
-                    <div class="d-flex align-items-center gap-2">
-                    
-                    </div>
+                    <p class="mb-0 fw-normal"><%=product.brand%></p>
                   </td>
+
+                 
 
                   <td class="border-bottom-0">
                     <div class="d-flex align-items-center gap-2">
-                    
-                    </div>
-                  </td>
-
-                  <td class="border-bottom-0">
-                    <div class="d-flex align-items-center gap-2">
-                        <button class="badge bg-primary rounded-3 fw-semibold">View</button>
+                        <a href="/admin/products/prodcutview/<%=product._id%>" class="badge bg-primary rounded-3 fw-semibold">View</a>
                     </div>
                   </td>
                 </tr>
+             <% })%>
+
+              <%}%>
+          
+            
              
           </tbody>
         </table>

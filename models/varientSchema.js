@@ -1,32 +1,32 @@
 const mongoose = require('mongoose');
 
-
-
-const varientSchema = new mongoose.Schema({
-    color: {
+const variantSchema = new mongoose.Schema({
+    colors: {
         type: String,
         required: true
-    },
-    productId:{
-        type:String,
-        required:true
     },
     price: {
         type: Number,
         required: true
     },
-    size:{
-        type:String,
-        required:true
-    },
     stock: {
-        type: Number,
-        required: true
+        type:Array,
+        required:true
     },
     images: {
         type: [String],
         required: true
+    },
+    productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
     }
+    // isVariantAvailable: {
+    //     type: Boolean,
+    //     required: true,
+    //     default: false
+    // }
+
 })
 
-module.exports = mongoose.model("varient", varientSchema)
+module.exports = mongoose.model('variants', variantSchema)

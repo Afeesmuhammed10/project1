@@ -246,7 +246,7 @@ form button[type="reset"]:hover {
     <!-- Main wrapper -->
 
     <link rel="stylesheet" href="/admin//assets/css/styles.min.css" />
-    <form id="product-form" action="/admin/products/add-product" method="POST">
+    <form id="product-form"  method="POST">
       <label for="productName">Product Name:</label>
       <input type="text" id="productName" name="productName" value required>
 
@@ -267,7 +267,7 @@ form button[type="reset"]:hover {
         <option value>Select a category</option>
         <% if (categories) { %>
         <% categories.forEach((category) => { %>
-        <option value="<%= category._id %>"><%= category.categoryname%></option>
+        <option value="<%= category.categoryname %>"><%= category.categoryname%></option>
         <% }); %>
         <% } %>
       </select>
@@ -278,7 +278,7 @@ form button[type="reset"]:hover {
         <option value>Select a brands</option>
         <% if (brands) { %>
         <% brands.forEach((brands) => { %>
-        <option value="<%= brands._id %>"><%= brands.brandname %></option>
+        <option value="<%= brands.brandname %>"><%= brands.brandname %></option>
         <% }); %>
         <% } %>
       </select>
@@ -300,85 +300,144 @@ form button[type="reset"]:hover {
 
     </form>
 
-    <!-- Modal -->
-    <!-- Modal -->
-    <div class="modal fade" id="varientModal" tabindex="-1" role="dialog"
-      aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
+
+    <!-- modal 1 -->
+    <div class="modal fade" id="varientModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-
+            <p id="demo"></p>
+            <button type="button" onclick="deleteData()" class="btn-close" data-bs-dismiss="modal" id="close_btn" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-
-            <form action="/admin/products/addproductvarient" method="post"
-              enctype="multipart/form-data">
-
-              <!-- color -->
+            <form id="variantForm"  enctype="multipart/form-data">
+              <!-- Color -->
               <label for="color">Color:</label>
-              <input type="text" name="color" id="color">
-
-              <input type="text" name="productId" id="productId" value="" hidden>
-
-              <label for="productName"> Price :</label>
-              <input type="number" id="productName" name="price" value required>
-
-              <!-- stoke -->
-
-              <label for="stoke">Stoke:</label>
-              <input type="number" id="stoke" name="stock"  required>
-
-              <label for="size">Sizes:</label>
-              <select id="size" name="size" required>
-                <option value>Select a Sizes</option>
-                <option value="XXS">XXS</option>
-                <option value="XS">XS</option>
-                <option value="M">M</option>
-                <option value="L">L</option>
-                <option value="XL">XL</option>
-                <option value="XXL">XXL</option>
-                <option value="XXXL">XXXL</option>
-                <option value="4XL">4XL</option>
-                <option value="5XL">5XL</option>
+              <select id="color" name="color" required>
+                  <option value="">Select a color</option>
+                  <% if (colors) { %>
+                      <% colors.forEach((col) => { %>
+                          <option value="<%= col._id %>"><%= col.color_name%></option>
+                      <% }); %>
+                  <% } %>
               </select>
-
+              <input type="text" name="productId" id="productId" hidden>
+              <label for="price">Price:</label>
+              <input type="number" id="price" name="price" value="" required>
+              <label for="stock" id="stock">Stock:</label>
+              <% if (sizes && sizes.length > 0) { %>
+                  <input type="hidden" name="" id="size_length" value=<%= sizes.length %>>
+                  <% sizes.forEach((size, index) => { %>
+                    <div>
+                      <input type="text" id="size<%= index %>" value="<%= size.sizeName %>" placeholder="<%= size.sizeName %>" readonly>
+                      <br>
+                      <input type="number" placeholder="Quantity" id="quantity<%= index %>" required>
+                    </div>
+                  <% }); %>
+              <% } %>
               <!-- Images -->
               <div class="form-group">
                 <label for="image1">Image 1:</label>
-                <input type="file" class="form-control" id="image1"
-                  name="image1" accept="image/*"
-                  onchange="previewImage(event, 'imagePreview1')">
-                <img id="imagePreview1" class="img-preview" src
-                  alt="Image Preview 1">
+                <input type="file" class="form-control" id="image1" name="image1" accept="image/*" onchange="previewImage(event, 'imagePreview1')">
+                <img id="imagePreview1" class="img-preview" src="" alt="Image Preview 1">
               </div>
               <div class="form-group">
                 <label for="image2">Image 2:</label>
-                <input type="file" class="form-control" id="image2"
-                  name="image2" accept="image/*"
-                  onchange="previewImage(event, 'imagePreview2')">
-                <img id="imagePreview2" class="img-preview" src
-                  alt="Image Preview 2">
+                <input type="file" class="form-control" id="image2" name="image2" accept="image/*" onchange="previewImage(event, 'imagePreview2')">
+                <img id="imagePreview2" class="img-preview" src="" alt="Image Preview 2">
               </div>
               <div class="form-group">
                 <label for="image3">Image 3:</label>
-                <input type="file" class="form-control" id="image3"
-                  name="image3" accept="image/*"
-                  onchange="previewImage(event, 'imagePreview3')">
-                <img id="imagePreview3" class="img-preview" src
-                  alt="Image Preview 3">
+                <input type="file" class="form-control" id="image3" name="image3" accept="image/*" onchange="previewImage(event, 'imagePreview3')">
+                <img id="imagePreview3" class="img-preview" src="" alt="Image Preview 3">
               </div>
-
+              <div id="errP" style="color: red;"></div>
               <div class="modal-footer">
-
-                <button type="submit" aria-label="Close"
-                  class="btn btn-primary">Add Varient</button>
-
+                <button type="submit" aria-label="Close" id="close-btn" class="btn btn-primary">Save Variant</button>
               </div>
-
             </form>
           </div>
         </div>
+      </div>
+    </div>
+
+     <!-- modal 2 -->
+     <div class="modal fade" id="anothervariant" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">i am another</h5>
+            <p id="demo"></p>
+           
+          </div>
+          <div class="modal-body">
+            <form id="variantForm"  enctype="multipart/form-data">
+              <!-- Color -->
+              <label for="color">Color:</label>
+              <select id="color" name="color" required>
+                  <option value="">Select a color</option>
+                  <% if (colors) { %>
+                      <% colors.forEach((col) => { %>
+                          <option value="<%= col._id %>"><%= col.color_name%></option>
+                      <% }); %>
+                  <% } %>
+              </select>
+              <input type="text" name="productId" id="productId" hidden>
+              <label for="price">Price:</label>
+              <input type="number" id="price" name="price" value="" required>
+              <label for="stock" id="stock">Stock:</label>
+              <% if (sizes && sizes.length > 0) { %>
+                  <input type="hidden" name="" id="size_length" value=<%= sizes.length %>>
+                  <% sizes.forEach((size, index) => { %>
+                    <div>
+                      <input type="text" id="size<%= index %>" value="<%= size.sizeName %>" placeholder="<%= size.sizeName %>" readonly>
+                      <br>
+                      <input type="number" placeholder="Quantity" id="quantity<%= index %>" required>
+                    </div>
+                  <% }); %>
+              <% } %>
+              <!-- Images -->
+              <div class="form-group">
+                <label for="image1">Image 1:</label>
+                <input type="file" class="form-control" id="image1" name="image1" accept="image/*" onchange="previewImage(event, 'imagePreview1')">
+                <img id="imagePreview1" class="img-preview" src="" alt="Image Preview 1">
+              </div>
+              <div class="form-group">
+                <label for="image2">Image 2:</label>
+                <input type="file" class="form-control" id="image2" name="image2" accept="image/*" onchange="previewImage(event, 'imagePreview2')">
+                <img id="imagePreview2" class="img-preview" src="" alt="Image Preview 2">
+              </div>
+              <div class="form-group">
+                <label for="image3">Image 3:</label>
+                <input type="file" class="form-control" id="image3" name="image3" accept="image/*" onchange="previewImage(event, 'imagePreview3')">
+                <img id="imagePreview3" class="img-preview" src="" alt="Image Preview 3">
+              </div>
+              <div id="errP" style="color: red;"></div>
+              <div class="modal-footer">
+                <button type="submit" aria-label="Close" id="close-btn" class="btn btn-primary">Save Variant</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <script>
     let form = document.getElementById('product-form');
@@ -392,7 +451,6 @@ form button[type="reset"]:hover {
     let gender = document.getElementById('gender').value
     let category = document.getElementById('category').value
     let brand = document.getElementById('brands').value
-    let size = document.getElementById('size').value
     let disc = document.getElementById('description').value
 
 
@@ -401,7 +459,6 @@ form button[type="reset"]:hover {
       gender:gender,
       category:category,
       brand:brand,
-      size:size,
       disc:disc
     }
 
@@ -415,6 +472,11 @@ form button[type="reset"]:hover {
       })
     }
 
+        document.getElementById('variantForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      addVariant(event);
+    });
+
     function previewImage(event, previewId) {
       const reader = new FileReader();
       reader.onload = function() {
@@ -424,7 +486,80 @@ form button[type="reset"]:hover {
       };
       reader.readAsDataURL(event.target.files[0]);
     }
-   
+    document.getElementById('variantForm').addEventListener('submit', function(event) {
+     
+      variantAlert(); 
+    });
+
+    function variantAlert() {
+      Swal.fire({
+        title: "varient added successfully",
+        text: "Do you want to add another variant?",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, add another"
+      }).then((result) => {
+        if (result.isConfirmed) {
+         
+          $('#anothervariant').modal('show'); 
+          
+          $('#varientModal').modal('hide'); 
+    
+    
+    
+        } else {
+          window.location.href = "/admin/products"; // Redirect to the products page
+        }
+      });
+    }
+
+
+
+    async function addVariant (event){
+      event.preventDefault()
+      const formData = new FormData()
+    
+    
+      formData.append("pId",document.getElementById("productId").value)     //key value pair
+      formData.append("color",document.getElementById("color").value)
+      formData.append("price",document.getElementById("price").value)
+    
+      const sizes = document.getElementById("size_length").value
+      const stock = []
+    
+      for(let i=0; i<sizes ;i++){
+        const size = document.getElementById("size" + i).value
+        const quantity = parseInt(document.getElementById("quantity" +i).value)
+    
+          stock.push({
+            size:size,                                    
+            quantity:quantity
+          })
+          
+      }
+    
+      console.log(stock);
+      
+    // Convert stock array to JSON string
+      formData.append("stock",JSON.stringify(stock))                                        // stock
+      formData.append("file1",document.getElementById("image1").files[0])
+      formData.append("file2",document.getElementById("image2").files[0])
+      formData.append("file3",document.getElementById("image3").files[0])                                   // stock
+      
+    
+    $("#variantModal").modal('hide') 
+    
+    
+    const response = await axios.post('/admin/products/addproductvariant', formData, {
+      headers: {
+          'Content-Type': 'multipart/form-data'
+      }
+  });
+
+
+    }
+     
   </script>
 
         <script
@@ -432,5 +567,6 @@ form button[type="reset"]:hover {
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
       </body>

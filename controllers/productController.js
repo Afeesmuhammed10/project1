@@ -2,6 +2,10 @@ const Category = require('../models/categorySchema');
 const Brand = require("../models/brandSchema")
 const Product = require("../models/productSchema")
 const Varient = require("../models/varientSchema")
+const Colors = require("../models/colorShema")
+const Sizes = require('../models/sizeSchema')
+const mongoose = require('mongoose')
+const { ObjectId } = mongoose.Types;
 //get shop page
 
 const getShop=(req,res)=>{
@@ -79,7 +83,25 @@ const getEditcat =async (req,res)=>{
 //get Products
 
 const getProducts = async(req,res)=>{
-    res.render('admin/listproducts')
+
+    let productImages = await Product.aggregate([
+        {
+            $lookup: {
+                from: 'variants', // Ensure this matches the actual collection name
+                localField: 'variants',
+                foreignField: '_id',
+                as: 'variants'
+            }
+        }
+    ]);
+        
+        // productImages.forEach((x)=>{
+        //    console.log(x.variants[0].images[0])
+        // })
+
+    //console.log(productImages)
+   
+    res.render('admin/listproducts',{products:productImages})
 }
 
 //get add products
@@ -87,7 +109,9 @@ const getProducts = async(req,res)=>{
 const getAddProducts = async(req,res)=>{
     let category = await Category.find({isDeleted:false})
     let brands = await Brand.find({isDeleted:false})
-    res.render('admin/addproducts',{categories:category,brands:brands})
+    let colors = await Colors.find({isDeleted:false})
+    let sizes = await Sizes.find({isDeleted:false})
+    res.render('admin/addproducts',{categories:category,brands:brands,colors:colors,sizes:sizes})
 }
 
 //get brands
@@ -121,22 +145,119 @@ const getEditBrand = async (req,res)=>{
     }
 }
 
+//get colors
+
+const getColors = async  (req,res)=>{
+
+    const colors = await Colors.find({isDeleted:false})
+    // console.log(colors);
+    res.render("admin/colors",{colors:colors})
+}
+
+//get add colors
+
+const getAddNewColors = async (req,res)=>{
+    res.render('admin/addcolors');
+}
+
+
+//add new color
+
+const addNewColor = async (req,res)=>{
+    let color = req.body.color;
+    let hexacode = req.body.hexacode
+
+    let isExists = await Colors.findOne({color_name:color})
+    if(isExists){
+       return res.render('admin/addcolors',{err:"entered color already exists"})
+    }else{
+        let newColor = await Colors.create({
+            color_name: color,
+            color_code: hexacode,
+            isDeleted:false
+        })
+        // console.log(newColor);
+       return res.redirect("/admin/products/colors")
+    }
+}
+
+//delte colors
+
+const deleteColor =async (req,res)=>{
+    let colorId = req.query.clrId
+
+    let deletedColor = await Colors.findOneAndUpdate(
+        {_id:colorId},
+        {
+            $set:{
+                isDeleted:true
+            }
+        }
+    )
+
+    console.log("deletedclr is",deletedColor)
+
+    if(deletedColor){
+        res.status(200).send("color deleted suceessfully....")
+    }
+}
+
+//get deleted colors
+
+const deletedColors = async(req,res)=>{
+    let deletedClrs= await Colors.find({isDeleted:true})
+    res.render('admin/deletedcolors',{colors:deletedClrs})
+}
+
+//getSizes
+
+const getSizes = async  (req,res)=>{
+    const size = await Sizes.find({isDeleted:false})
+    // console.log(colors);
+    res.render("admin/sizes",{sizes:size})
+}
+
+
+//get add sizes
+
+const getAddSizes = (req,res)=>{
+    res.render('admin/addsizes')
+}
+
+//add sizes
+
+const addSizes = async(req,res)=>{
+    let size = req.body.size
+
+    let addedSize = await Sizes.create(
+        {
+            sizeName:size,
+            isDeleted:false
+        }
+    )
+
+    console.log(addedSize)
+    res.redirect('/admin/products/sizes')
+}
+
+
+
 //edit brand
 
-const editBrand = async(req,res)=>{
+async function editBrand(req, res) {
     let brandId = req.params.brandId;
-    let newBrand = req.body.brand
-    if(brandId){
+    let newBrand = req.body.brand;
+    if (brandId) {
         let editedbrand = await Brand.findOneAndUpdate(
-            {_id:brandId},
+            { _id: brandId },
             {
-                $set:{
-                    brandname:newBrand
+                $set: {
+                    brandname: newBrand
                 }
             }
-        )
-        if(editedbrand){
-            res.redirect('/admin/products/brands')
+        );
+        if (editedbrand) {
+            res.redirect('/admin/products/brands');
         }
     }
 }
@@ -226,6 +347,7 @@ const restoreBrand = async(req,res)=>{
 //add products
 
 const addProducts =async (req,res)=>{
+    
     console.log(req.query.data);
     let obj = JSON.parse(req.query.data); 
     let product = await Product.create({
@@ -244,30 +366,76 @@ const addProducts =async (req,res)=>{
     }
 }
 
-const addProductVariable = async(req,res)=>{
- console.log(req.files)
- console.log(req.body)
- const {color,productId,price,stock,size} = req.body
+const addProductVariant = async(req,res)=>{
 
-let images = req.files
-console.log(images)
+ try {
+    const { pId, color, price, stock } = req.body
 
 
- let varient = await Varient.create(
-    {
-        color:color,
-        productId:productId,
-        price:price,
-        size:size,
-        stock:stock,
-        images:[images.image1[0].filename,images.image2[0].filename,images.image3[0].filename]
-    }
- )
-console.log(varient)
+    //  const parsedStock = JSON.parse(stock);
+    // console.log(req.body.pId)
+    // console.log(JSON.stringify(stock))
+console.log(stock)
+// Parse the stock JSON string back to an array of objects
+const parsedStock = JSON.parse(stock);
+
+// console.log(req.body.pId)
+console.log(JSON.stringify(parsedStock));
+
+    const file1 = req.files[0].filename
+    const file2 = req.files[1].filename
+    const file3 = req.files[2].filename
+    console.log(file3);
+
+    let newVariant = await Varient.create(
+        {
+            productId: pId,
+            colors: color,
+            price: price,
+            stock: parsedStock,
+            images: [file1, file2, file3]
+        }
+    )
+    console.log(newVariant);
+
+    const updatedProduct = await Product.findOneAndUpdate(
+        { _id: pId },
+        { $push: { variants: newVariant._id }, $set: { isVariantAvailable: true } },
+        { new: true }
+    );
+     console.log(updatedProduct)
 
 
+} catch (err) {
+    console.error("error", err);
+    res.status(500).json({ msg: " sever error", type: "error" })
+}
 
 }
+
+
+//getproductview
+
+const getProductview = async(req,res)=>{
+    const id = req.params.id
+    let product = await Product.aggregate([
+       
+       {$match:{_id:new ObjectId(id)}},
+       {
+        $lookup: {
+            from: 'variants', // Ensure this matches the actual collection name
+            localField: 'variants',
+            foreignField: '_id',
+            as: 'variants'
+        }
+    }
+
+    ]);
+
+   res.render('admin/productdetailedview')
+}
+
+
 
 
 module.exports = {
@@ -288,5 +456,14 @@ module.exports = {
     getEditBrand,
     editBrand,
     addProducts,
-    addProductVariable 
+    addProductVariant,
+    getColors,
+    getAddNewColors,
+    addNewColor,
+    deleteColor,
+    deletedColors,
+    getSizes,
+    getAddSizes,
+    addSizes,
+    getProductview
 }
