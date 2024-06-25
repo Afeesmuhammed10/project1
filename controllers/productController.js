@@ -95,11 +95,11 @@ const getProducts = async(req,res)=>{
         }
     ]);
         
-        // productImages.forEach((x)=>{
-        //    console.log(x.variants[0].images[0])
-        // })
+         productImages.forEach((x)=>{
+            console.log(x.variants[0].images[0]) 
+         })
 
-    //console.log(productImages)
+
    
     res.render('admin/listproducts',{products:productImages})
 }
@@ -429,10 +429,14 @@ const getProductview = async(req,res)=>{
             as: 'variants'
         }
     }
+  
 
     ]);
 
-   res.render('admin/productdetailedview')
+    console.log(product)
+
+
+   res.render('admin/productdetailedview',{product:product})
 }
 
 

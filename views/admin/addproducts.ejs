@@ -302,7 +302,7 @@ form button[type="reset"]:hover {
 
 
     <!-- modal 1 -->
-    <div class="modal fade" id="varientModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="variantModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -318,11 +318,11 @@ form button[type="reset"]:hover {
                   <option value="">Select a color</option>
                   <% if (colors) { %>
                       <% colors.forEach((col) => { %>
-                          <option value="<%= col._id %>"><%= col.color_name%></option>
+                          <option value="<%= col.color_name%>"><%= col.color_name%></option>
                       <% }); %>
                   <% } %>
               </select>
-              <input type="text" name="productId" id="productId" hidden>
+             
               <label for="price">Price:</label>
               <input type="number" id="price" name="price" value="" required>
               <label for="stock" id="stock">Stock:</label>
@@ -357,71 +357,14 @@ form button[type="reset"]:hover {
                 <button type="submit" aria-label="Close" id="close-btn" class="btn btn-primary">Save Variant</button>
               </div>
             </form>
+
+            <input type="text" name="productId" id="productId" hidden>
           </div>
         </div>
       </div>
     </div>
 
-     <!-- modal 2 -->
-     <div class="modal fade" id="anothervariant" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">i am another</h5>
-            <p id="demo"></p>
-           
-          </div>
-          <div class="modal-body">
-            <form id="variantForm"  enctype="multipart/form-data">
-              <!-- Color -->
-              <label for="color">Color:</label>
-              <select id="color" name="color" required>
-                  <option value="">Select a color</option>
-                  <% if (colors) { %>
-                      <% colors.forEach((col) => { %>
-                          <option value="<%= col._id %>"><%= col.color_name%></option>
-                      <% }); %>
-                  <% } %>
-              </select>
-              <input type="text" name="productId" id="productId" hidden>
-              <label for="price">Price:</label>
-              <input type="number" id="price" name="price" value="" required>
-              <label for="stock" id="stock">Stock:</label>
-              <% if (sizes && sizes.length > 0) { %>
-                  <input type="hidden" name="" id="size_length" value=<%= sizes.length %>>
-                  <% sizes.forEach((size, index) => { %>
-                    <div>
-                      <input type="text" id="size<%= index %>" value="<%= size.sizeName %>" placeholder="<%= size.sizeName %>" readonly>
-                      <br>
-                      <input type="number" placeholder="Quantity" id="quantity<%= index %>" required>
-                    </div>
-                  <% }); %>
-              <% } %>
-              <!-- Images -->
-              <div class="form-group">
-                <label for="image1">Image 1:</label>
-                <input type="file" class="form-control" id="image1" name="image1" accept="image/*" onchange="previewImage(event, 'imagePreview1')">
-                <img id="imagePreview1" class="img-preview" src="" alt="Image Preview 1">
-              </div>
-              <div class="form-group">
-                <label for="image2">Image 2:</label>
-                <input type="file" class="form-control" id="image2" name="image2" accept="image/*" onchange="previewImage(event, 'imagePreview2')">
-                <img id="imagePreview2" class="img-preview" src="" alt="Image Preview 2">
-              </div>
-              <div class="form-group">
-                <label for="image3">Image 3:</label>
-                <input type="file" class="form-control" id="image3" name="image3" accept="image/*" onchange="previewImage(event, 'imagePreview3')">
-                <img id="imagePreview3" class="img-preview" src="" alt="Image Preview 3">
-              </div>
-              <div id="errP" style="color: red;"></div>
-              <div class="modal-footer">
-                <button type="submit" aria-label="Close" id="close-btn" class="btn btn-primary">Save Variant</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+    
 
 
 
@@ -440,6 +383,27 @@ form button[type="reset"]:hover {
 
 
         <script>
+          function resetForms() {
+            // Select all forms within the modal and reset them
+            $('#variantModal form').each(function() {
+              this.reset();
+          
+          
+            })
+          
+            // Reset the preview elements
+           
+            $('#imagePreview1').innerHTML= " "; 
+            $('#imagePreview2').innerHTML= " ";
+            $('#imagePreview3').innerHTML= " ";
+            $('#imagePreview1').attr('src', '');
+            $('#imagePreview2').attr('src', '');
+            $('#imagePreview3').attr('src', '');
+           
+          }
+
+
+          
     let form = document.getElementById('product-form');
     form.addEventListener('submit',(e)=>{
       e.preventDefault();
@@ -465,8 +429,8 @@ form button[type="reset"]:hover {
     let productJson = JSON.stringify(obj)
       axios.post(`/admin/products/addproducts/?data=${productJson}`).then((response)=>{
             if(response.status===200){
-              document.getElementById('varientModal')
-              $('#varientModal').modal('show');
+              document.getElementById('variantModal')
+              $('#variantModal').modal('show');
               document.getElementById("productId").value = response.data
             }
       })
@@ -502,9 +466,7 @@ form button[type="reset"]:hover {
       }).then((result) => {
         if (result.isConfirmed) {
          
-          $('#anothervariant').modal('show'); 
-          
-          $('#varientModal').modal('hide'); 
+          resetForms()
     
     
     
@@ -548,7 +510,7 @@ form button[type="reset"]:hover {
       formData.append("file3",document.getElementById("image3").files[0])                                   // stock
       
     
-    $("#variantModal").modal('hide') 
+
     
     
     const response = await axios.post('/admin/products/addproductvariant', formData, {
