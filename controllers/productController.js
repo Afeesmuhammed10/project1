@@ -84,7 +84,8 @@ const getEditcat =async (req,res)=>{
 
 const getProducts = async(req,res)=>{
 
-    let productImages = await Product.aggregate([
+    let products = await Product.aggregate([
+        {$match:{isDeleted:false}},
         {
             $lookup: {
                 from: 'variants', // Ensure this matches the actual collection name
@@ -95,13 +96,13 @@ const getProducts = async(req,res)=>{
         }
     ]);
         
-         productImages.forEach((x)=>{
+         products.forEach((x)=>{
             console.log(x.variants[0].images[0]) 
          })
 
 
    
-    res.render('admin/listproducts',{products:productImages})
+    res.render('admin/listproducts',{products:products})
 }
 
 //get add products
@@ -439,6 +440,76 @@ const getProductview = async(req,res)=>{
    res.render('admin/productdetailedview',{product:product})
 }
 
+//unlist product
+
+const unlistProduct = async(req,res)=>{
+    let id = req.query.pId
+
+    try{
+        let unlistedProduct = await Product.findOneAndUpdate(
+            {_id:id},
+            {
+                $set:{
+                    isDeleted:true
+                }
+            }
+        )
+
+        if(unlistedProduct){
+            res.status(200).send("product unlisted sucessfully");
+        }
+    }catch(err){
+        throw new Error('error on product unlist ')
+    }
+}
+
+//get unlisted products
+
+const getUnlistedProducts =async (req,res)=>{
+    let products = await Product.aggregate([
+        {$match:{isDeleted:true}},
+        {
+            $lookup: {
+                from: 'variants', // Ensure this matches the actual collection name
+                localField: 'variants',
+                foreignField: '_id',
+                as: 'variants'
+            }
+        }
+    ]);
+        
+         products.forEach((x)=>{
+            console.log(x.variants[0].images[0]) 
+         })
+
+
+   
+    res.render('admin/unlistedproducts',{products:products})
+}
+
+//restore product
+
+const restoreProduct = async(req,res)=>{
+    let id = req.query.pId
+
+    try{
+        let unlistedProduct = await Product.findOneAndUpdate(
+            {_id:id},
+            {
+                $set:{
+                    isDeleted:false
+                }
+            }
+        )
+
+        if(unlistedProduct){
+            res.status(200).send("product restored sucessfully");
+        }
+    }catch(err){
+        throw new Error('error on product restore ')
+    }
+}
+
 
 
 
@@ -469,5 +540,8 @@ module.exports = {
     getSizes,
     getAddSizes,
     addSizes,
-    getProductview
+    getProductview,
+    unlistProduct,
+    getUnlistedProducts,
+    restoreProduct
 }

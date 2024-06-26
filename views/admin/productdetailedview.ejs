@@ -66,6 +66,7 @@
                         <div class="container">
                             <div class="product-gallery-carousel owl-carousel owl-full owl-nav-dark">
                                 <figure class="product-gallery-image">
+    
                                     <img src="/images/<%=pro.variants[0].images[0]%>" data-zoom-image="assets/images/products/single/gallery/1-big.jpg" alt="product image">
                                 </figure><!-- End .product-gallery-image -->
 
@@ -113,25 +114,29 @@
                                     <div class="details-filter-row details-row-size">
                                         <label>Color:</label>
                                         <div class="product-nav product-nav-dots">
-                                            <% pro.variants.forEach((v) => { %>
+                                            <% pro.variants.forEach((v,index) => { %>
                                                 
-                                                    <a href="#" style="background: <%= v.colors %>;">
-                                                        <span class="sr-only">Color name</span>
+                                                    <a  href="#" id="<%=index%>" style="background: <%= v.colors %>;">
+                                                        <span class="sr-only" >Color name</span>
                                                     </a>
+                                                    
                                             <% }); %>
                                         </div><!-- End .product-nav -->
                                     </div><!-- End .details-filter-row -->
                                     
-                                
+                                  
 
                                     <div class="details-filter-row details-row-size mb-md-1">
                                         <label>Size:</label>
 
                                         <div class="product-size">
-                                            <a href="#" title="Small">S</a>
-                                            <a href="#" title="Medium" class="active">M</a>
-                                            <a href="#" title="Large" class="disabled">L</a>
-                                            <a href="#" title="Extra Large">XL</a>
+
+                                            <%pro.variants[0].stock.forEach((s)=>{%>
+                                               
+                                            <a href="#" title="Medium" class="active"><%=s.size%></a>
+                                           
+                                            <%})%>
+                                            
                                         </div><!-- End .product-size -->
 
                                         <a href="#" class="size-guide"><i class="icon-th-list"></i>size guide</a>
@@ -325,6 +330,10 @@
             </div><!-- End .social-icons -->
         </div><!-- End .mobile-menu-wrapper -->
     </div><!-- End .mobile-menu-container -->
+
+    <script>
+        let varIndex = 0
+    </script>
 
    
 

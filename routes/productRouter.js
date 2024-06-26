@@ -56,4 +56,8 @@ router.post('/addsizes',productController.addSizes)
 
 
 router.get('/prodcutview/:id',productController.getProductview) 
+
+router.post('/unlistproduct',productController.unlistProduct)
+router.get('/unlistedproducts',productController.getUnlistedProducts)
+router.post('/restoreproduct',productController.restoreProduct)
 module.exports = router

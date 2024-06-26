@@ -166,8 +166,8 @@
   <div class="card w-100">
     <div class="card-body p-4 ">
       <div class="button w-100 d-flex  justify-content-end">
-        <a style="margin-right: 10px; width: 200px;" href="/admin/products/addproducts" class="btn btn-primary">Add Products</a>
-        <a style="width: 200px;" href="/admin/products/unlistedproducts" class="btn btn-danger">Deleted Products</a>
+       
+        <a style="width: 200px;" href="/admin/products" class="btn btn-success">listed Products</a>
     </div>
       <h5 class="card-title fw-semibold mb-4" id="table">Products list</h5>
       <div class="table-responsive">
@@ -199,12 +199,10 @@
                 <h6 class="fw-semibold mb-0">View</h6>
               </th>
 
-              <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">Edit</h6>
-              </th>
+            
 
               <th class="border-bottom-0">
-                <h6 class="fw-semibold mb-0">Unlist</h6>
+                <h6 class="fw-semibold mb-0">Restore</h6>
               </th>
             </tr>
           </thead>
@@ -239,16 +237,11 @@
                     </div>
                   </td>
 
-                  <td class="border-bottom-0 ">
-                    <div class="d-flex align-items-center gap-2">
-                        <button href="/admin/products/prodcutview/<%=product._id%>" class="badge bg-primary rounded-3 fw-semibold">Edit</button>
-                    </div>
-
-                  </td>
+                  
 
                   <td class="border-bottom-0 ">
                     <div class="d-flex align-items-center gap-2">
-                        <button onclick="unlistProduct('<%=product._id%>')" class="badge bg-danger rounded-3 fw-semibold">unlist</button>
+                        <button onclick="restoreProduct('<%=product._id%>')" class="badge bg-success rounded-3 fw-semibold">restore</button>
                     </div>
 
                   </td>
@@ -279,25 +272,25 @@
 <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
 
 <script>
-  function unlistProduct(pId){
+  function restoreProduct(pId){
  
     let row = document.getElementById(pId)
     row.addEventListener('click',(e)=>{
       Swal.fire({
-          title: "You want to unlist this product?",
+          title: "You want to restore this product?",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
-          confirmButtonText: "unlist this product"
+          confirmButtonText: "yes,restore this product"
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire({
-              title: "unlisted!",
+              title: "restored!",
               text: "Your can change this",
               icon: "success"
             });
-            axios.post(`/admin/products/unlistproduct/?pId=${pId}`).then((response) => {
+            axios.post(`/admin/products/restoreproduct/?pId=${pId}`).then((response) => {
               if (response.status == 200) {
                   const row = document.getElementById(pId);
                   if (row) {
